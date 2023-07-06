@@ -1,7 +1,8 @@
+from random import randint
 import math
 import click
 import os
-from random import randint
+
 
 
 def task_1():
