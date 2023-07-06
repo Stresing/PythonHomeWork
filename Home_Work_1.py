@@ -101,10 +101,8 @@ def task_5():
         elif turn < num and attempts_left == 1:
             print('Число больше, это твоя последняя попытка!')
         elif turn > num and attempts_left == 1:
-
             print('Число меньше, это твоя последняя попытка!')
         elif turn < num:
-
             print('Ха, число больше! попробуй снова!')
         elif turn > num:
 
