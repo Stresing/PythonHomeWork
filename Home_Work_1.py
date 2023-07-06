@@ -4,7 +4,6 @@ import click
 import os
 
 
-
 def task_1():
     os.system('cls')
     print('Задача №1:\nНарисовать в консоли ёлку \nЗапросить у пользователя количество рядов.\n')
@@ -15,7 +14,6 @@ def task_1():
         print(empty * (row - i) + (star * i * 2) + star)
     click.pause()
     start_program()
-
 
 
 def task_2():
@@ -34,6 +32,7 @@ def task_2():
         print("")
     click.pause()
     start_program()
+
 
 def task_3():
     os.system('cls')
@@ -55,6 +54,7 @@ def task_3():
         print('Такого треугольника не существует.')
     click.pause()
     start_program()
+
 
 def task_4():
     os.system('cls')
@@ -79,6 +79,7 @@ def task_4():
             break
     click.pause()
     start_program()
+
 
 def task_5():
     os.system('cls')
@@ -111,6 +112,7 @@ def task_5():
     click.pause()
     start_program()
 
+
 def start_program():
     os.system('cls')
     print('\nДобро пожаловать в домашнюю работу! '
@@ -134,4 +136,6 @@ def start_program():
     else:
         print('Задачи под таким номером тут нет =(')
         start_program()
+
+
 start_program()
