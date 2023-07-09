@@ -1,9 +1,6 @@
-import math
 import decimal
 
 # константы для банкомата.
-from typing import List
-
 MULTIPLICITY: int = 50
 WITHDRAWAL_COMMISSION: decimal.Decimal = decimal.Decimal(1.500)
 WITHDRAWAL_MIN_COMMISSION: decimal.Decimal = decimal.Decimal(30)
@@ -61,7 +58,7 @@ def choice_sum(choice_operation: int):
         show_balance()
 
 
-def commission(withdrawal_sum: decimal.Decimal):  # вычитание комиссии
+def commission(withdrawal_sum: decimal.Decimal) -> decimal.Decimal:  # вычитание комиссии
     global tax
     tax = withdrawal_sum // 100 * WITHDRAWAL_COMMISSION
     if WITHDRAWAL_MIN_COMMISSION < tax < WITHDRAWAL_MAX_COMMISSION:
@@ -85,7 +82,7 @@ def attention_withdrawn_tax():
     print(f'Был удержан налог на богатство {tax}')
 
 
-def surcharge():
+def surcharge() -> decimal.Decimal:
     global transaction_counting, balance, tax
     if transaction_counting == 0:
         tax = balance // 100 * ACCRUED_INTEREST
@@ -123,13 +120,13 @@ def show_balance():
 # select_operation()  # task_1
 
 
-def input_num():  # Ввод данных
+def input_num() -> int:  # Ввод данных
     num = int(input('Введите число: '))
     return num
 
 
 def hexadecimal_system():  # функция преобразования числа в 16ю систему
-    global check
+    # global check
     calculate_hexadecimal(num=input_num())
     print(revers_string(hexadecimal))
 
@@ -141,8 +138,7 @@ def calculate_hexadecimal(num: int):
         quotient = num // HEXADECIMAL_NUM
         hexadecimal += ''.join(map(str, list_entry(remainder)))
         num = quotient
-    hexadecimal += ''.join(map(str, list_entry(quotient)))
-
+    hexadecimal += ''.join(map(str, list_entry(num)))
 
 
 def list_entry(variable: int) -> list[str | int]:  # по 1 цифре не больше 15
@@ -154,11 +150,10 @@ def list_entry(variable: int) -> list[str | int]:  # по 1 цифре не бо
                 result_list.insert(0, val)
     else:
         result_list.insert(0, variable)
-    # print(result_list)
     return result_list
 
 
-def revers_string(text: str):
+def revers_string(text: str) -> str:  # разворачивает строку
     global hexadecimal
     res = ''
     for i in range(len(text) - 1, -1, -1):
@@ -166,4 +161,4 @@ def revers_string(text: str):
     return res
 
 
-# hexadecimal_system() # task_2
+hexadecimal_system()  # task_2
