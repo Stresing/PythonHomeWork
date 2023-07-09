@@ -1,7 +1,9 @@
 import math
 import decimal
 
-decimal.getcontext().prec = 10
+# константы для банкомата.
+from typing import List
+
 MULTIPLICITY: int = 50
 WITHDRAWAL_COMMISSION: decimal.Decimal = decimal.Decimal(1.500)
 WITHDRAWAL_MIN_COMMISSION: decimal.Decimal = decimal.Decimal(30)
@@ -12,16 +14,20 @@ RICH_BALANCE: int = 5_000_000
 transaction_counting: int = 3
 balance: decimal.Decimal = decimal.Decimal(0.0)
 tax: decimal.Decimal = decimal.Decimal(0.0)
+# константы для шестнадцатеричной системы
+HEXADECIMAL_NUM: int = 16
+hexadecimal: str = ''
 
 
 def select_operation():
     surcharge()
-    choice = int(input(f'Здравствуйте ваш баланс равен: {balance}'
-                       '\nВведите номер операции для выполнения:'
-                       '\nПополнение счёта = 1'
-                       '\nСнять со счёта = 2'
-                       '\nВыход = 3'
-                       '\nВвод: '))  # replenish, withdraw, exit
+    choice = input_num()
+    print(f'Здравствуйте ваш баланс равен: {balance}'
+          '\nВведите номер операции для выполнения:'
+          '\nПополнение счёта = 1'
+          '\nСнять со счёта = 2'
+          '\nВыход = 3'
+          '\nВвод: ')  # replenish, withdraw, exit
     if choice == 1:
         print(f'\nВыбрана операция: Пополнить!')
         choice_sum(1)
@@ -55,7 +61,7 @@ def choice_sum(choice_operation: int):
         show_balance()
 
 
-def commission(withdrawal_sum: decimal.Decimal):
+def commission(withdrawal_sum: decimal.Decimal):  # вычитание комиссии
     global tax
     tax = withdrawal_sum // 100 * WITHDRAWAL_COMMISSION
     if WITHDRAWAL_MIN_COMMISSION < tax < WITHDRAWAL_MAX_COMMISSION:
@@ -67,7 +73,7 @@ def commission(withdrawal_sum: decimal.Decimal):
     return decimal.Decimal(withdrawal_sum)
 
 
-def collection_rich_tax():
+def collection_rich_tax():  # сбор налога для богатых
     global balance, tax
     if balance > RICH_BALANCE:
         tax = balance // 100 * TAX_OF_RICHES
@@ -114,4 +120,50 @@ def show_balance():
     select_operation()
 
 
-select_operation()
+# select_operation()  # task_1
+
+
+def input_num():  # Ввод данных
+    num = int(input('Введите число: '))
+    return num
+
+
+def hexadecimal_system():  # функция преобразования числа в 16ю систему
+    global check
+    calculate_hexadecimal(num=input_num())
+    print(revers_string(hexadecimal))
+
+
+def calculate_hexadecimal(num: int):
+    global hexadecimal
+    while num > 16:
+        remainder = num % HEXADECIMAL_NUM
+        quotient = num // HEXADECIMAL_NUM
+        hexadecimal += ''.join(map(str, list_entry(remainder)))
+        num = quotient
+    hexadecimal += ''.join(map(str, list_entry(quotient)))
+
+
+
+def list_entry(variable: int) -> list[str | int]:  # по 1 цифре не больше 15
+    letters_list = ['a', 'b', 'c', 'd', 'e', 'f']
+    result_list = []
+    if variable > 9:
+        for item_index, val in enumerate(letters_list, 10):
+            if variable == item_index:
+                result_list.insert(0, val)
+    else:
+        result_list.insert(0, variable)
+    # print(result_list)
+    return result_list
+
+
+def revers_string(text: str):
+    global hexadecimal
+    res = ''
+    for i in range(len(text) - 1, -1, -1):
+        res += text[i]
+    return res
+
+
+# hexadecimal_system() # task_2
