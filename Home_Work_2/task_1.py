@@ -1,6 +1,14 @@
+# Начальная сумма равна нулю
+# ✔ Допустимые действия: пополнить, снять, выйти
+# ✔ Сумма пополнения и снятия кратны 50 у.е.
+# ✔ Процент за снятие — 1.5% от суммы снятия, но не менее 30 и не более 600 у.е.
+# ✔ После каждой третей операции пополнения или снятия начисляются проценты - 3%
+# ✔ Нельзя снять больше, чем на счёте
+# ✔ При превышении суммы в 5 млн, вычитать налог на богатство 10% перед каждой операцией, даже ошибочной
+# ✔ Любое действие выводит сумму денег
+
 import decimal
 
-# константы для банкомата.
 MULTIPLICITY: int = 50
 WITHDRAWAL_COMMISSION: decimal.Decimal = decimal.Decimal(1.500)
 WITHDRAWAL_MIN_COMMISSION: decimal.Decimal = decimal.Decimal(30)
@@ -11,20 +19,17 @@ RICH_BALANCE: int = 5_000_000
 transaction_counting: int = 3
 balance: decimal.Decimal = decimal.Decimal(0.0)
 tax: decimal.Decimal = decimal.Decimal(0.0)
-# константы для шестнадцатеричной системы
-HEXADECIMAL_NUM: int = 16
-hexadecimal: str = ''
 
 
 def select_operation():
-    surcharge()
-    choice = input_num()
+    print(transaction_counting)
     print(f'Здравствуйте ваш баланс равен: {balance}'
           '\nВведите номер операции для выполнения:'
           '\nПополнение счёта = 1'
           '\nСнять со счёта = 2'
-          '\nВыход = 3'
-          '\nВвод: ')  # replenish, withdraw, exit
+          '\nВыход = 3')  # replenish, withdraw, exit
+    choice = input_num()
+
     if choice == 1:
         print(f'\nВыбрана операция: Пополнить!')
         choice_sum(1)
@@ -50,7 +55,7 @@ def choice_sum(choice_operation: int):
             withdrawals(commission(choice))
         else:
             collection_rich_tax()
-            print('Недостаточно денежных средств')
+            print(f'Недостаточно денежных средств для снятие: {choice} необходимо: {commission(choice)} из-за комиссии')
             show_balance()
     else:
         collection_rich_tax()
@@ -78,17 +83,18 @@ def collection_rich_tax():  # сбор налога для богатых
         attention_withdrawn_tax()
 
 
-def attention_withdrawn_tax():
-    print(f'Был удержан налог на богатство {tax}')
-
-
-def surcharge() -> decimal.Decimal:
+def surcharge():  # доплата
     global transaction_counting, balance, tax
     if transaction_counting == 0:
+        print("доп", transaction_counting)
         tax = balance // 100 * ACCRUED_INTEREST
-        balance + tax
+        print(tax)
+        balance += tax
         transaction_counting = 3
-    return balance
+
+
+def attention_withdrawn_tax():
+    print(f'Был удержан налог на богатство {tax}')
 
 
 def replenish(sum_add: decimal.Decimal):
@@ -96,6 +102,7 @@ def replenish(sum_add: decimal.Decimal):
     collection_rich_tax()
     balance += sum_add
     transaction_count()
+    surcharge()
     show_balance()
 
 
@@ -104,6 +111,7 @@ def withdrawals(sum_lose: decimal.Decimal):
     collection_rich_tax()
     balance -= sum_lose
     transaction_count()
+    surcharge()
     show_balance()
 
 
@@ -117,48 +125,8 @@ def show_balance():
     select_operation()
 
 
-# select_operation()  # task_1
-
-
 def input_num() -> int:  # Ввод данных
     num = int(input('Введите число: '))
     return num
 
-
-def hexadecimal_system():  # функция преобразования числа в 16ю систему
-    # global check
-    calculate_hexadecimal(num=input_num())
-    print(revers_string(hexadecimal))
-
-
-def calculate_hexadecimal(num: int):
-    global hexadecimal
-    while num > 16:
-        remainder = num % HEXADECIMAL_NUM
-        quotient = num // HEXADECIMAL_NUM
-        hexadecimal += ''.join(map(str, list_entry(remainder)))
-        num = quotient
-    hexadecimal += ''.join(map(str, list_entry(num)))
-
-
-def list_entry(variable: int) -> list[str | int]:  # по 1 цифре не больше 15
-    letters_list = ['a', 'b', 'c', 'd', 'e', 'f']
-    result_list = []
-    if variable > 9:
-        for item_index, val in enumerate(letters_list, 10):
-            if variable == item_index:
-                result_list.insert(0, val)
-    else:
-        result_list.insert(0, variable)
-    return result_list
-
-
-def revers_string(text: str) -> str:  # разворачивает строку
-    global hexadecimal
-    res = ''
-    for i in range(len(text) - 1, -1, -1):
-        res += text[i]
-    return res
-
-
-hexadecimal_system()  # task_2
+# select_operation()  # task_1.py
