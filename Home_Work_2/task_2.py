@@ -14,14 +14,13 @@ def input_num() -> int:  # Ввод данных
 
 
 def hexadecimal_system():  # функция преобразования числа в 16ю систему
-    # global check
     calculate_hexadecimal(num=input_num())
     print(revers_string(hexadecimal))
 
 
 def calculate_hexadecimal(num: int):
     global hexadecimal
-    while num > 16:
+    while num > HEXADECIMAL_NUM:
         remainder = num % HEXADECIMAL_NUM
         quotient = num // HEXADECIMAL_NUM
         hexadecimal += ''.join(map(str, list_entry(remainder)))

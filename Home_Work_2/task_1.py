@@ -22,14 +22,12 @@ tax: decimal.Decimal = decimal.Decimal(0.0)
 
 
 def select_operation():
-    print(transaction_counting)
     print(f'Здравствуйте ваш баланс равен: {balance}'
           '\nВведите номер операции для выполнения:'
           '\nПополнение счёта = 1'
           '\nСнять со счёта = 2'
           '\nВыход = 3')  # replenish, withdraw, exit
     choice = input_num()
-
     if choice == 1:
         print(f'\nВыбрана операция: Пополнить!')
         choice_sum(1)
@@ -97,7 +95,7 @@ def attention_withdrawn_tax():
     print(f'Был удержан налог на богатство {tax}')
 
 
-def replenish(sum_add: decimal.Decimal):
+def replenish(sum_add: decimal.Decimal):  # пополнение
     global balance
     collection_rich_tax()
     balance += sum_add
@@ -106,7 +104,7 @@ def replenish(sum_add: decimal.Decimal):
     show_balance()
 
 
-def withdrawals(sum_lose: decimal.Decimal):
+def withdrawals(sum_lose: decimal.Decimal):  # снятие
     global balance
     collection_rich_tax()
     balance -= sum_lose
@@ -115,7 +113,7 @@ def withdrawals(sum_lose: decimal.Decimal):
     show_balance()
 
 
-def transaction_count():
+def transaction_count():  # Подсчёт транзакций для доплаты
     global transaction_counting
     transaction_counting -= 1
 
