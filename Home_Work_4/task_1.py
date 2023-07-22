@@ -1,3 +1,6 @@
+"""Напишите функцию для транспонирования матрицы"""
+
+
 def transpositing_any_matrix(some_list: list) -> list:
     matrix_list = [list(line) for line in zip(*some_list)]
     return matrix_list
@@ -52,5 +55,4 @@ def start_task_1():
         print('Необходимо ответить на вопрос, "да" или "нет" ')
         start_task_1()
 
-
-start_task_1()
+# start_task_1()
